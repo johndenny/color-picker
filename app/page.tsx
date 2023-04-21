@@ -2,6 +2,8 @@ import Link from "next/link";
 import { db } from "@/lib/prisma";
 import CollectionCards from "@/components/CollectionCards";
 
+export const dynamic = "force-dynamic";
+
 async function getCollections() {
   const collections = await db.collection.findMany({
     orderBy: {
