@@ -1,0 +1,28 @@
+.input {
+  position: absolute;
+  visibility: hidden;
+  left: 100%;
+  bottom: 100%;
+}
+
+.label {
+  display: flex;
+  position: relative;
+  background-color: whitesmoke;
+  height: 100px;
+  width: 125px;
+  cursor: pointer;
+}
+
+.delete_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem;
+}
+
+.header {
+  font-size: 1rem;
+  font-weight: 400;
+}

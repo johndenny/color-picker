@@ -1,0 +1,26 @@
+.screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 3;
+  background-color: whitesmoke;
+  opacity: 0.6;
+}
+
+.icon {
+  z-index: 4;
+}
+
+.color {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: grey;
+  position: relative;
+  width: 125px;
+  height: 100px;
+  background-color: whitesmoke;
+}

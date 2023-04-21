@@ -1,0 +1,24 @@
+.buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+button.red {
+  background-color: #ffb4b4;
+  border-color: #c56060;
+  color: darkred;
+}
+
+button.green {
+  background-color: #b6fdb1;
+  border-color: #35c02c;
+  color: darkgreen;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.loading {
+  position: absolute;
+}

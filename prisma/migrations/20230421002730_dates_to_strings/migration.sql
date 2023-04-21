@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "Collection" ALTER COLUMN "editedAt" DROP DEFAULT,
+ALTER COLUMN "editedAt" SET DATA TYPE TEXT;
+
+-- AlterTable
+ALTER TABLE "Color" ALTER COLUMN "createdAt" DROP DEFAULT,
+ALTER COLUMN "createdAt" SET DATA TYPE TEXT;
