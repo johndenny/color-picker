@@ -52,9 +52,6 @@ export default function Edit({ collection, colors }: Props) {
         "Content-Type": "application/json",
       },
     });
-    await fetch(
-      `https://color-picker-topaz.vercel.app/api/revalidate?secret=${process.env.SECRET_TOKEN}`
-    );
     setIsDeleteFetching(false);
 
     startDeleteTransition(() => {
@@ -90,9 +87,6 @@ export default function Edit({ collection, colors }: Props) {
       }
     );
     const { id } = await result.json();
-    await fetch(
-      `https://color-picker-topaz.vercel.app/api/revalidate?secret=${process.env.SECRET_TOKEN}`
-    );
     setIsSaveFetching(false);
 
     startSaveTransition(() => {
