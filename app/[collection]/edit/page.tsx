@@ -15,21 +15,18 @@ export default async function EditPage({
           editedAt: new Date().toUTCString(),
           colors: [],
         }}
-        colors={new Map()}
+        colors={[]}
       />
     );
 
   const collection = await getCollection(params.collection);
-  const map = new Map(
-    collection.colors.map((obj) => [
-      obj.id,
-      {
-        isEdit: false,
-        isDelete: false,
-        isNew: false,
-        ...obj,
-      },
-    ])
-  );
-  return <Edit collection={collection} colors={map} />;
+  const colors = collection.colors.map((obj) => {
+    return {
+      isEdit: false,
+      isDelete: false,
+      isNew: false,
+      ...obj,
+    };
+  });
+  return <Edit collection={collection} colors={colors} />;
 }

@@ -21,7 +21,7 @@ type Props = {
   collection: Collection & {
     colors: Color[];
   };
-  colors: Map<string, ColorEdit>;
+  colors: ColorEdit[];
 };
 
 const inter = Inter({ subsets: ["latin"] });
@@ -38,9 +38,7 @@ export default function Edit({ collection, colors }: Props) {
 
   const [newId, setNewId] = useState(1);
   const [value, setValue] = useState(collection.title || "");
-  const [colorsMap, setColors] = useState<Map<string, ColorEdit>>(
-    new Map(colors)
-  );
+  const [colorsArray, setColors] = useState(colors);
 
   async function HandleDelete() {
     setIsDeleteFetching(true);
@@ -65,10 +63,10 @@ export default function Edit({ collection, colors }: Props) {
 
     const edited_colors = [],
       deleted_colors = [];
-    for (const [key, obj] of Array.from(colorsMap)) {
+    for (const obj of colorsArray) {
       if (obj.isEdit)
-        edited_colors.push({ id: key, hexadecimal: obj.hexadecimal });
-      else if (obj.isDelete) deleted_colors.push(key);
+        edited_colors.push({ id: obj.id, hexadecimal: obj.hexadecimal });
+      else if (obj.isDelete) deleted_colors.push(obj.id);
     }
 
     const result = await fetch(
@@ -96,22 +94,22 @@ export default function Edit({ collection, colors }: Props) {
   }
 
   function changeHandler(e: FormEvent<HTMLInputElement>, id: string) {
-    const color = colorsMap.get(id);
-    if (color?.hexadecimal) {
-      color.hexadecimal = e.currentTarget.value;
-      setColors(new Map(colorsMap.set(id, color)));
+    const index = colorsArray.findIndex((color) => color.id === id);
+    if (index > -1) {
+      const newArray = [...colorsArray];
+      newArray[index].hexadecimal = e.currentTarget.value;
+      setColors(newArray);
     }
   }
 
   function deleteColor(id: string) {
-    const color = colorsMap.get(id);
-    if (color?.isNew) {
-      colorsMap.delete(id);
-      setColors(new Map(colorsMap));
-    } else if (color) {
-      color.isDelete = true;
-      setColors(new Map(colorsMap.set(id, color)));
+    const index = colorsArray.findIndex((color) => color.id === id);
+    let newArray = [...colorsArray];
+    if (index > -1) {
+      if (colorsArray[index].isNew) newArray.splice(index, 1);
+      else newArray[index].isEdit = true;
     }
+    setColors(newArray);
   }
 
   function addColor() {
@@ -125,7 +123,7 @@ export default function Edit({ collection, colors }: Props) {
       isNew: true,
     };
     setNewId((newId) => newId + 1);
-    setColors(new Map(colorsMap.set(newColor.id, newColor)));
+    setColors([newColor].concat(colorsArray));
   }
   return (
     <>
@@ -172,7 +170,7 @@ export default function Edit({ collection, colors }: Props) {
           <div className={color_styles.color}>+</div>
           <h2 className={styles.header}>Add Color</h2>
         </button>
-        {Array.from(colorsMap.values()).map((color) => {
+        {colorsArray.map((color) => {
           if (!color.isDelete)
             return (
               <ColorInput

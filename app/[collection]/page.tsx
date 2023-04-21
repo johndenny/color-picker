@@ -9,7 +9,11 @@ export async function getCollection(id: string) {
       id: id,
     },
     include: {
-      colors: true,
+      colors: {
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
     },
   });
   if (result === null) throw new Error("Collection not found.");
