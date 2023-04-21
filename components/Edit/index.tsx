@@ -45,7 +45,7 @@ export default function Edit({ collection, colors }: Props) {
   async function HandleDelete() {
     setIsDeleteFetching(true);
 
-    await fetch("http://localhost:3000/api/delete_collection", {
+    await fetch("https://color-picker-topaz.vercel.app/api/delete_collection", {
       method: "PATCH",
       body: JSON.stringify({ id: collection.id }),
       headers: {
@@ -71,18 +71,21 @@ export default function Edit({ collection, colors }: Props) {
       else if (obj.isDelete) deleted_colors.push(key);
     }
 
-    const result = await fetch("http://localhost:3000/api/post_collection", {
-      method: "POST",
-      body: JSON.stringify({
-        id: collection.id,
-        title: value,
-        edited_colors,
-        deleted_colors,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const result = await fetch(
+      "https://color-picker-topaz.vercel.app/api/post_collection",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          id: collection.id,
+          title: value,
+          edited_colors,
+          deleted_colors,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const { id } = await result.json();
     setIsSaveFetching(false);
 
