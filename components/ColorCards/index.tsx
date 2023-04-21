@@ -12,7 +12,7 @@ export default function ColorCards({ colors }: { colors: Color[] }) {
 
   function copyHexadecimal(hexadecimal: string, id: string) {
     if (timer.current) clearTimeout(timer.current);
-    navigator.clipboard.writeText(hexadecimal);
+    navigator.clipboard.writeText(hexadecimal.slice(1));
     setCopiedId(id);
     timer.current = setTimeout(() => setCopiedId(""), 3000);
   }
