@@ -45,16 +45,13 @@ export default function Edit({ collection, colors }: Props) {
   async function HandleDelete() {
     setIsDeleteFetching(true);
 
-    await fetch(
-      "https://color-picker-j0tzs463l-johndenny.vercel.app/api/delete_collection",
-      {
-        method: "PATCH",
-        body: JSON.stringify({ id: collection.id }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    await fetch("https://color-picker-topaz.vercel.app/api/delete_collection", {
+      method: "PATCH",
+      body: JSON.stringify({ id: collection.id }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     setIsDeleteFetching(false);
 
     startDeleteTransition(() => {
@@ -75,7 +72,7 @@ export default function Edit({ collection, colors }: Props) {
     }
 
     const result = await fetch(
-      "https://color-picker-j0tzs463l-johndenny.vercel.app/api/post_collection",
+      "https://color-picker-topaz.vercel.app/api/post_collection",
       {
         method: "POST",
         body: JSON.stringify({
