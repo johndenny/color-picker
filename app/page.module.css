@@ -42,6 +42,19 @@
   width: 200px;
   height: 150px;
   background: whitesmoke;
+  position: relative;
+}
+
+.inner_card_mask {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  -webkit-mask: linear-gradient(to bottom, #0000, #000);
+  mask: linear-gradient(to bottom, #0000, #000);
 }
 
 .inner_card_add {
