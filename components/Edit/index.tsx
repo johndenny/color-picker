@@ -5,7 +5,7 @@ import { Collection, Color } from "@prisma/client";
 import styles from "../../app/page.module.css";
 import color_styles from "../ColorCards/color_card.module.css";
 import edit_styles from "./edit.module.css";
-import ColorInput from "./ColorInput";
+import ColorInput, { HEX_REGEX } from "./ColorInput";
 import { FormEvent, useState, useTransition } from "react";
 import { Inter } from "next/font/google";
 import { useRouter } from "next/navigation";
@@ -65,9 +65,11 @@ export default function Edit({ collection, colors }: Props) {
     const edited_colors = [],
       deleted_colors = [];
     for (const obj of colorsArray) {
-      if (obj.isEdit)
+      const isValid = obj.hexadecimal.match(HEX_REGEX);
+
+      if (obj.isDelete || (!isValid && !obj.isNew)) deleted_colors.push(obj.id);
+      else if (obj.isEdit && isValid)
         edited_colors.push({ id: obj.id, hexadecimal: obj.hexadecimal });
-      else if (obj.isDelete) deleted_colors.push(obj.id);
     }
 
     const result = await fetch(`${getBaseURL()}api/post_collection`, {
@@ -92,10 +94,13 @@ export default function Edit({ collection, colors }: Props) {
   }
 
   function changeHandler(e: FormEvent<HTMLInputElement>, id: string) {
+    const { value } = e.currentTarget;
+    const color_hex = value[0] === "#" ? value : `#${value}`;
     const index = colorsArray.findIndex((color) => color.id === id);
     if (index > -1) {
       const newArray = [...colorsArray];
-      newArray[index].hexadecimal = e.currentTarget.value;
+      newArray[index].hexadecimal = color_hex;
+      newArray[index].isEdit = true;
       setColors(newArray);
     }
   }
@@ -105,7 +110,7 @@ export default function Edit({ collection, colors }: Props) {
     let newArray = [...colorsArray];
     if (index > -1) {
       if (colorsArray[index].isNew) newArray.splice(index, 1);
-      else newArray[index].isEdit = true;
+      else newArray[index].isDelete = true;
     }
     setColors(newArray);
   }
