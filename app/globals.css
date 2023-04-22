@@ -39,19 +39,12 @@ h1 {
   overflow: hidden;
 }
 
-input[type="text"] {
-  padding: 0.3rem 0.5rem;
-  border-radius: 3px;
-  font-size: 1.5rem;
-  font-weight: 500;
-  border: 1px solid lightgrey;
-  outline: none;
+input {
+  all: unset;
 }
 
 button {
-  padding: 0;
-  border: 0;
-  background: none;
+  all: unset;
   cursor: pointer;
   display: flex;
 }
