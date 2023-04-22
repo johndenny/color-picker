@@ -7,6 +7,8 @@
 
 .label {
   display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   background-color: whitesmoke;
   height: 100px;
@@ -20,9 +22,14 @@
   justify-content: space-between;
   width: 100%;
   padding: 1rem;
+  max-width: 125px;
 }
 
 .header {
   font-size: 1rem;
   font-weight: 400;
+}
+
+.input_hex {
+  width: 100%;
 }
