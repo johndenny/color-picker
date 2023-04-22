@@ -10,6 +10,7 @@ import { FormEvent, useState, useTransition } from "react";
 import { Inter } from "next/font/google";
 import { useRouter } from "next/navigation";
 import LoadingSvg from "../LoadingSvg";
+import getBaseURL from "@/lib/baseURL";
 
 export interface ColorEdit extends Color {
   isEdit: boolean;
@@ -43,7 +44,7 @@ export default function Edit({ collection, colors }: Props) {
   async function HandleDelete() {
     setIsDeleteFetching(true);
 
-    await fetch("https://color-picker-topaz.vercel.app/api/delete_collection", {
+    await fetch(`${getBaseURL()}api/delete_collection`, {
       method: "PATCH",
       body: JSON.stringify({ id: collection.id }),
       headers: {
@@ -69,21 +70,18 @@ export default function Edit({ collection, colors }: Props) {
       else if (obj.isDelete) deleted_colors.push(obj.id);
     }
 
-    const result = await fetch(
-      "https://color-picker-topaz.vercel.app/api/post_collection",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          id: collection.id,
-          title: value,
-          edited_colors,
-          deleted_colors,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const result = await fetch(`${getBaseURL()}api/post_collection`, {
+      method: "POST",
+      body: JSON.stringify({
+        id: collection.id,
+        title: value,
+        edited_colors,
+        deleted_colors,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     const { id } = await result.json();
     setIsSaveFetching(false);
 
